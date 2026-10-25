@@ -18,20 +18,18 @@
 
 ## 📌 Overview
 
-Offline Cassandra / ScyllaDB / CouchDB / Memcached configuration auditor
+OCassandraX is an offline, read-only configuration auditor for NoSQL wide-column and document stores, covering Cassandra, ScyllaDB, CouchDB and Memcached. Stdlib YAML-lite and INI parsers with file:line origins drive checks for weak authentication, missing TLS, dangerous exposure, UDF RCE and known CVEs. Findings map to CWE/CVE/MITRE ATT&CK with hardened templates, a score and an A+…F grade.
 
 ---
 
 ## ✨ Features
 
-- Stdlib YAML-lite + INI parsers with file:line origin
-- Cassandra / ScyllaDB — AllowAll auth, Transitional auth, rpc/listen 0.0.0.0, Thrift, client & internode TLS, default keystore passwords, UDF RCE (CVE-2021-44521), audit logging, CDC, /tmp data dirs
-- cassandra-env.sh JMX (LOCAL_JMX=no w/o auth / SSL), cqlshrc default cassandra/cassandra superuser
-- Scylla Alternator w/o authorization, REST API, dev mode
-- CouchDB INI stack — admin party, plaintext / SHA-1 admins, require_valid_user, CORS *, TLS, cookies, CVE-2017-12635/12636, CVE-2022-24706 'monster' cookie
-- Memcached — -l 0.0.0.0, UDP (CVE-2018-1000115), SASL, -u root, -A, TLS (Debian / sysconfig / systemd)
-- Offline --root discovery, CWE / CVE / MITRE mapping
-- Export TXT / MD / JSON / CSV / SARIF, --demo, CI gates
+- Cassandra/ScyllaDB: AllowAll auth, 0.0.0.0 binds, TLS, UDF RCE (CVE-2021-44521), JMX
+- CouchDB: admin party, weak admins, CORS *, TLS and 'monster' cookie CVEs
+- Memcached: 0.0.0.0 listeners, UDP amplification, SASL and run-as-root checks
+- Stdlib YAML-lite/INI parsers with file:line origin and offline --root discovery
+- CWE / CVE / MITRE ATT&CK mapping with secrets masked
+- Hardened templates, scoring/grade and export TXT/MD/JSON/CSV/SARIF
 
 ---
 
@@ -45,7 +43,10 @@ Offline Cassandra / ScyllaDB / CouchDB / Memcached configuration auditor
 ## 🚀 Usage
 
 ```bash
-./OCassandraX
+./OCassandraX --scan
+./OCassandraX --cassandra cassandra.yaml --format sarif -o report.sarif --fail-on high
+./OCassandraX --couchdb /etc/couchdb/local.ini
+./OCassandraX --help
 ```
 
 ---
